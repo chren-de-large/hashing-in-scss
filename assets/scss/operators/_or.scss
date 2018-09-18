@@ -1,0 +1,27 @@
+/// `or` bitwise operator
+/// @access public
+/// @param {Number} $x - first value
+/// @param {Number} $y - second value
+/// @return {Number}
+/// @require {function} power
+/// @require {function} order-args
+/// @require {function} binary-length
+/// @example scss
+/// $value: bw-or(42, 48);
+/// // 58
+@function bw-or($x, $y) {
+  $args: order-args($x, $y);
+  $x: nth($args, 1);
+  $y: nth($args, 2);
+  $b: binary-length($x);
+  $res: 0;
+
+  @for $i from 0 through $b {
+    $h: power(2, $i);
+    $tx: floor($x / $h) % 2;
+    $ty: floor($y / $h) % 2;
+    $res: $res + $h * (($tx + $ty + $tx * $ty % 2) % 2);
+  }
+
+  @return $res;
+}

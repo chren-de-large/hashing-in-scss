@@ -1,0 +1,27 @@
+/// Convert from base 10 to base 2
+/// @access private
+/// @param {Number} $value - decimal to convert
+/// @return {Number}
+/// @require {function} largest-power-of-2
+@function decimal-to-binary($value, $padding: false) {
+  $largest: largest-power-of-2($value);
+  $result: 0;
+
+  @while $largest >= 1 {
+    @if $value - $largest >= 0 {
+      $value: $value - $largest;
+      $result: $result * 10 + 1;
+    } @else {
+      $result: $result * 10;
+    }
+
+    $largest: $largest / 2;
+  }
+
+  @if $padding == true {
+    $str: to-string($result);
+    $result: str-pad($str, 8, '0', 'left');
+  }
+
+  @return $result;
+}

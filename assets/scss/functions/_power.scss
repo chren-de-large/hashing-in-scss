@@ -1,0 +1,24 @@
+/// Power function, using Compass if enabled
+/// @access private
+/// @param {Number} $x - first value
+/// @param {Number} $y - second value
+/// @return {Number}
+@function power($x, $y) {
+  @if function-exists('pow') == true {
+    @return pow($x, $y);
+  }
+
+  $ret: 1;
+
+  @if $y > 0 {
+    @for $i from 1 through $y {
+      $ret: $ret * $x;
+    }
+  } @else {
+    @for $i from $y to 0 {
+      $ret: $ret / $x;
+    }
+  }
+
+  @return $ret;
+}

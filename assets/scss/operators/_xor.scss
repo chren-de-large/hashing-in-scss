@@ -1,0 +1,25 @@
+/// `xor` bitwise operator
+/// @access public
+/// @param {Number} $x - first value
+/// @param {Number} $y - second value
+/// @return {Number}
+/// @require {function} power
+/// @require {function} order-args
+/// @require {function} binary-length
+/// @example scss
+/// $value: bw-xor(42, 48);
+/// // 26
+@function bw-xor($x, $y) {
+  $args: order-args($x, $y);
+  $x: nth($args, 1);
+  $y: nth($args, 2);
+  $b: binary-length($x);
+  $res: 0;
+
+  @for $i from 0 through $b {
+    $h: power(2, $i);
+    $res: $res + $h * (((floor($x / $h) % 2) + (floor($y / $h) % 2)) % 2);
+  }
+
+  @return $res;
+}

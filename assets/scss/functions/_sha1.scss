@@ -1,0 +1,47 @@
+//// following steps from http://www.metamorphosite.com/one-way-hash-encryption-sha1-data-software
+
+@function sha($string) {
+
+  //// Step 0: Initialize some variables
+  $h0: '01100111010001010010001100000001';
+  $h1: '11101111110011011010101110001001';
+  $h2: '10011000101110101101110011111110';
+  $h3: '00010000001100100101010001110110';
+  $h4: '11000011110100101110000111110000';
+
+  //// Step 1: Pick a string
+  @debug 'String: ' + $string;
+
+
+  //// Step
+  //// 2: Break it into characters
+  //// 3: Convert characters to ASCII codes
+  //// 4: Convert numbers into binary
+  $result: '';
+  @for $i from 1 through str-length($string) {
+    $c: str-slice($string, $i, $i);
+    $decimal: get-decimal-value($c);
+    $binary: decimal-to-binary($decimal, true);
+    $result: $result + $binary;
+  }
+
+  //// Step 5: Add '1' to the end
+  $basic_lngt: str-length($result);
+  $lngt: $basic_lngt + 1;
+  $result: str-pad($result, $lngt, '1', 'right');
+
+
+  //// Step 6: Append '0's' to the end
+  $lngt: str-length($result);
+  $padding: 448 - to-fixed(($lngt / 512), 0);
+  $result: str-pad($result, $padding, '0', 'right');
+
+
+  //// Step 6.1: Append original message length
+  $former_lngt: to-string(decimal-to-binary($basic_lngt));
+  $add: str-pad($former_lngt, 64, '0', 'left');
+  $result: $result + $add;
+
+  @debug $result;
+  @return $result
+}

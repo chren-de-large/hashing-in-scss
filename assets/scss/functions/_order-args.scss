@@ -1,0 +1,12 @@
+/// Order arguments decreasing
+/// @access private
+/// @param {Number} $x - first value
+/// @param {Number} $y - second value
+/// @return {Number}
+@function order-args($x, $y) {
+  @if $x >= $y {
+    @return $x $y;
+  } @else {
+    @return $y $x;
+  }
+}

@@ -1,0 +1,49 @@
+/// Checks whether argument list is valid
+/// @access private
+/// @param {List} $args - argument list
+/// @return {Bool}
+@function arguments-validator($args) {
+  $last: null;
+  $operators: (
+          "&"  : "and",
+          "|"  : "or",
+          "^"  : "xor",
+          "<<" : "shift-left",
+          ">>" : "shift-right"
+  );
+
+  @if length($args) < 2 {
+    @return false;
+  }
+
+  @each $current in $args {
+    @if map-has-key($operators, $current) {
+      @if not $last {
+        @warn "You can't start with another operator than `~`.";
+        @return false;
+      }
+    }
+
+    @else if $current == '~' {
+      @if type-of($last) == "number" {
+        @warn "Operator `~` can't follow a number.";
+        @return false;
+      }
+    }
+
+    @else if type-of($current) == "number" {
+      @if type-of($last) == "number" {
+        @warn "A number can't follow a number. They must be separated by an operator";
+        @return false;
+      }
+    }
+
+    @else {
+      @return false;
+    }
+
+    $last: $current;
+  }
+
+  @return true;
+}

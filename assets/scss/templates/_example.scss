@@ -1,0 +1,38 @@
+#example {
+  @include breakpoint($small) {
+    width: 100%;
+    background-color: $grey-color;
+    display: flex;
+    height: 100vh;
+    align-items:center;
+
+    input {
+      width: 50%;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 3rem;
+
+      &::after {
+        position: relative;
+        width: 50%;
+        height: 30px;
+        font-size: 2rem;
+        clear: both;
+        color: white;
+        content: sha('A Test');
+      }
+    }
+  }
+
+  @include breakpoint($medium) {
+    background-color: $blue-color;
+  }
+
+  @include breakpoint($large) {
+    background-color: $dark-grey-color;
+  }
+
+  @include breakpoint($x-large) {
+    background-color: $magenta-color
+  }
+}
